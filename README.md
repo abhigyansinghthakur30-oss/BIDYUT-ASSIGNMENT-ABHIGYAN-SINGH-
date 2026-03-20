@@ -1,16 +1,52 @@
-# Bidyut Solutions — Team Task Dashboard
+<div align="center">
+  
+# ⚡ Bidyut Solutions — Team Task Dashboard
 
-A full-stack **Team Task Dashboard** built with **Next.js (App Router)**, **Tailwind CSS**, and **Supabase** (database + realtime). Features custom JWT authentication, role-based access control, real-time team chat, and task management.
+**A sophisticated full-stack Team Task Dashboard built with Next.js, Tailwind CSS, and Supabase.**
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database_&_Realtime-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
+
+<br />
+
+<h3>
+  <a href="YOUR_DEPLOYED_WEBSITE_LINK_HERE">
+    🚀 View Live Demo 🚀
+  </a>
+</h3>
+<p><i>(Replace the link in the README.md with your deployed website URL)</i></p>
+
+</div>
+
+---
+
+## 🌟 Overview
+
+The **Team Task Dashboard** is a powerful internal web application built for seamless team task management and real-time collaboration. It provides a highly responsive UI, strict role-based access control, and instant messaging—ensuring your team stays aligned and productive.
+
+## ✨ Key Features
+
+- **🔐 Custom JWT Authentication**: Pure custom implementation (no external auth libraries). Secure password hashing with `bcryptjs` (12 rounds) and edge-compatible JWTs via `jose` stored safely in HTTP-only cookies.
+- **👥 Role-Based Access Control (RBAC)**: Distinct workflows, dashboards, and permissions for `admin` and `user` roles.
+- **💬 Real-Time Team Chat**: Supabase realtime subscriptions guarantee instant message deliveries for all connected users without manual page refreshes.
+- **📋 Task Management**: Admins have authoritative control to create, assign, and delete tasks. Users get a focused view of only their assigned tasks.
+- **🎨 Modern UI/UX**: Developed with **Next.js App Router** and **Tailwind CSS v4**, guaranteeing a crisp, fully responsive, and premium visual experience.
+
+---
 
 ## 🛠 Tech Stack
 
-- **Next.js 15** (App Router)
-- **Tailwind CSS v4**
-- **Supabase** (PostgreSQL database + Realtime)
-- **bcryptjs** (password hashing)
-- **jose** (JWT — Edge-compatible)
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Database & Realtime**: [Supabase](https://supabase.com/) (PostgreSQL)
+- **Security & Crypto**: `bcryptjs` (Password Hashing), `jose` (Edge-compatible JWT processing)
+
+---
 
 ## 🚀 Getting Started
+
+Follow these steps to set up the project locally on your machine.
 
 ### 1. Clone & Install
 
@@ -22,7 +58,7 @@ npm install
 
 ### 2. Set Up Environment Variables
 
-Create a `.env.local` file in the root directory:
+Create a tightly-scoped `.env.local` file in the root directory:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -30,81 +66,78 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 JWT_SECRET=your_jwt_secret_key
 ```
 
-### 3. Set Up Supabase Database
+### 3. Initialize Supabase Database
 
-1. Go to your [Supabase Dashboard](https://supabase.com/dashboard)
-2. Open the **SQL Editor**
-3. Copy and paste the contents of `supabase-schema.sql`
-4. Click **Run** to create the tables and RLS policies
+1. Go to your [Supabase Dashboard](https://supabase.com/dashboard).
+2. Open the **SQL Editor**.
+3. Copy and paste the entire contents of `supabase-schema.sql` located in this repository.
+4. Click **Run** to generate the required tables, relations, and Row Level Security (RLS) policies.
 
-### 4. Enable Realtime
+### 4. Enable Realtime Subscriptions
 
-In the Supabase Dashboard:
-1. Go to **Database → Replication**
-2. Make sure the `messages` table has realtime enabled
+For the instant team chat to function, you'll need to enable realtime broadcasts on your Supabase instance:
+1. In your Supabase Dashboard, navigate to **Database → Replication**.
+2. Ensure the `messages` table has **realtime enabled**.
 
-### 5. Run the App
+### 5. Run the Application
+
+Fire up the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## 📁 Project Structure
+---
 
-```
+## 👤 Role Capabilities
+
+A complete breakdown of permissions within the dashboard:
+
+| Feature                   | Admin | User              |
+| ------------------------- | :---: | :---------------: |
+| **View Tasks**            | ✅ All | ✅ Assigned only |
+| **Create Tasks**          | ✅    | ❌                |
+| **Assign Tasks**          | ✅    | ❌                |
+| **Delete Tasks**          | ✅    | ❌                |
+| **Toggle Task Completion**| ✅    | ✅                |
+| **Team Chat**             | ✅    | ✅                |
+
+---
+
+## 📝 Database Schema Overview
+
+The Supabase PostgreSQL database consists of three primary tables:
+
+- **`users`** — `id` (UUID), `email`, `password` (Hashed), `role` (`admin`/`user`).
+- **`tasks`** — `id`, `title`, `description`, `status` (`pending`/`completed`), `assigned_to` (Foreign Key referencing `users.id`).
+- **`messages`** — `id`, `sender_id` (Foreign Key referencing `users.id`), `content`, `created_at`.
+
+---
+
+## 📁 Repository Structure
+
+```text
 src/
 ├── app/
 │   ├── api/
-│   │   ├── auth/
-│   │   │   ├── login/route.js    # Login endpoint
-│   │   │   ├── register/route.js # Register endpoint
-│   │   │   ├── me/route.js       # Get current user
-│   │   │   └── logout/route.js   # Logout endpoint
-│   │   ├── tasks/route.js        # Task CRUD
-│   │   ├── messages/route.js     # Chat messages
-│   │   └── users/route.js        # User list (for task assignment)
-│   ├── dashboard/page.js         # Main dashboard
-│   ├── login/page.js             # Login page
-│   ├── register/page.js          # Register page
-│   ├── layout.js                 # Root layout
-│   ├── page.js                   # Redirects to /login
-│   └── globals.css               # Global styles
+│   │   ├── auth/           # Login, Register, Logout, Me endpoints
+│   │   ├── tasks/          # Task CRUD endpoints
+│   │   ├── messages/       # Chat message endpoints
+│   │   └── users/          # Users list (used for assigning tasks)
+│   ├── dashboard/          # Main dashboard views
+│   ├── login/              # Login interface
+│   ├── register/           # Registration interface
+│   ├── layout.js           # Root layout component
+│   ├── page.js             # Root redirect (directs to /login)
+│   └── globals.css         # Global Styles & Tailwind directies
 ├── components/
-│   ├── Navbar.jsx                # Navigation bar
-│   ├── TaskPanel.jsx             # Task management panel
-│   └── ChatPanel.jsx             # Real-time chat panel
+│   ├── Navbar.jsx          # Top Navigation Bar
+│   ├── TaskPanel.jsx       # Task Management Component
+│   └── ChatPanel.jsx       # Real-time Team Chat Component
 ├── lib/
-│   ├── auth.js                   # JWT + bcrypt utilities
-│   └── supabase.js               # Supabase client
-└── middleware.js                  # Route protection
+│   ├── auth.js             # JWT & bcrypt helper utilities
+│   └── supabase.js         # Supabase client instantiation
+└── middleware.js           # Next.js Route Protection logic
 ```
-
-## 🔐 Authentication
-
-- **Custom JWT authentication** — no external auth libraries
-- Passwords hashed with **bcryptjs** (12 rounds)
-- JWT tokens stored in **HTTP-only cookies** (7-day expiry)
-- Middleware protects `/dashboard` routes
-
-## 👤 Roles
-
-| Feature | Admin | User |
-|---------|-------|------|
-| View tasks | ✅ All | ✅ Assigned only |
-| Create tasks | ✅ | ❌ |
-| Assign tasks | ✅ | ❌ |
-| Delete tasks | ✅ | ❌ |
-| Toggle complete | ✅ | ✅ |
-| Team chat | ✅ | ✅ |
-
-## 💬 Real-Time Chat
-
-Uses Supabase Realtime subscriptions on the `messages` table. Messages appear instantly for all connected users without page refresh.
-
-## 📝 Database Schema
-
-- **users** — id (uuid), email, password (hashed), role (`admin`/`user`)
-- **tasks** — id, title, description, status (`pending`/`completed`), assigned_to (user FK)
-- **messages** — id, sender_id (user FK), content, created_at
