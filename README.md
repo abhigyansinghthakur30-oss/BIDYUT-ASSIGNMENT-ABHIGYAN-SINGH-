@@ -15,7 +15,7 @@
     🚀 View Live Demo 🚀
   </a>
 </h3>
-<p><i>](https://bidyut-assignment-abhigyan-singh.vercel.app/)</i></p>
+<p><i>(https://bidyut-assignment-abhigyan-singh.vercel.app/)</i></p>
 
 </div>
 
