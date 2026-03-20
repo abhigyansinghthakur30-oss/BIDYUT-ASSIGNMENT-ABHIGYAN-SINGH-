@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase } from "@/lib/supabase";
 
 export default function ChatPanel({ user }) {
   const [messages, setMessages] = useState([]);
@@ -24,18 +19,27 @@ export default function ChatPanel({ user }) {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
         async (payload) => {
-          const { data } = await supabase
+          // Add a small delay to ensure the foreign key data is available/refreshed
+          const { data, error } = await supabase
             .from("messages")
             .select("*, users!sender_id(email, role)")
             .eq("id", payload.new.id)
             .single();
 
-          if (data) {
-            setMessages((prev) => [...prev, data]);
+          if (data && !error) {
+            setMessages((prev) => {
+              // Prevent duplicates
+              if (prev.find(m => m.id === data.id)) return prev;
+              return [...prev, data];
+            });
           }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('Successfully subscribed to realtime messages');
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
