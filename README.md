@@ -15,7 +15,7 @@
     🚀 View Live Demo 🚀
   </a>
 </h3>
-<p><i>(Replace the link in the README.md with your deployed website URL)</i></p>
+<p><i>](https://bidyut-assignment-abhigyan-singh.vercel.app/)</i></p>
 
 </div>
 
