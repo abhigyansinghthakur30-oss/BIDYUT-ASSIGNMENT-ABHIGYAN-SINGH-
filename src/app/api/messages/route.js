@@ -29,7 +29,14 @@ export async function POST(request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { content } = await request.json();
+  let reqBody;
+  try {
+    reqBody = await request.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { content } = reqBody;
 
   if (!content || !content.trim()) {
     return NextResponse.json(

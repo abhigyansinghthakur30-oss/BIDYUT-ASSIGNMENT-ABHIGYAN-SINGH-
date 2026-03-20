@@ -11,7 +11,7 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <nav className="flex items-center justify-between px-10 py-5 bg-[#0a0a14]/80 backdrop-blur-3xl border-b border-white/5 sticky top-0 z-50">
+    <nav className="flex items-center justify-between px-4 md:px-10 py-5 bg-[#0a0a14]/80 backdrop-blur-3xl border-b border-white/5 sticky top-0 z-50">
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-500 flex items-center justify-center shadow-xl shadow-purple-600/20 text-xl font-black italic">
           B

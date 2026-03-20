@@ -45,19 +45,19 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0a0a14] relative overflow-hidden text-slate-200">
+    <div className="flex flex-col min-h-screen bg-[#0a0a14] relative overflow-x-hidden text-slate-200">
         {/* Subtle Background Glows */}
         <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[140px] rounded-full pointer-events-none" />
         <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[140px] rounded-full pointer-events-none" />
 
         <Navbar user={user} />
 
-        <main className="flex-1 flex flex-col lg:flex-row gap-6 p-6 md:p-10 max-w-[1920px] mx-auto w-full h-[calc(100vh-88px)] z-10">
-            <section className="flex-1 min-w-[320px] lg:w-2/3 h-full animate-slide-in" style={{ animationDelay: '0.1s' }}>
+        <main className="flex-1 flex flex-col lg:flex-row gap-6 p-6 md:p-10 max-w-[1920px] mx-auto w-full lg:h-[calc(100vh-88px)] z-10 mb-10 lg:mb-0">
+            <section className="flex-1 min-w-[320px] lg:w-2/3 h-[600px] lg:h-full animate-slide-in" style={{ animationDelay: '0.1s' }}>
                 <TaskPanel user={user} />
             </section>
             
-            <section className="flex-1 min-w-[320px] lg:w-1/3 h-full animate-slide-in" style={{ animationDelay: '0.2s' }}>
+            <section className="flex-1 min-w-[320px] lg:w-1/3 h-[600px] lg:h-full animate-slide-in" style={{ animationDelay: '0.2s' }}>
                 <ChatPanel user={user} />
             </section>
         </main>

@@ -36,7 +36,14 @@ export async function POST(request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { title, description, assigned_to } = await request.json();
+  let reqBody;
+  try {
+    reqBody = await request.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { title, description, assigned_to } = reqBody;
 
   if (!title || !title.trim()) {
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
@@ -66,7 +73,33 @@ export async function PATCH(request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id, status } = await request.json();
+  let reqBody;
+  try {
+    reqBody = await request.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { id, status } = reqBody;
+
+  if (!id || !status) {
+    return NextResponse.json({ error: "id and status are required" }, { status: 400 });
+  }
+
+  if (user.role !== "admin") {
+    const { data: taskToCheck } = await supabase
+      .from("tasks")
+      .select("assigned_to")
+      .eq("id", id)
+      .single();
+
+    if (!taskToCheck) {
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    }
+    if (taskToCheck.assigned_to !== user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+  }
 
   const { data, error } = await supabase
     .from("tasks")
@@ -92,7 +125,18 @@ export async function DELETE(request) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { id } = await request.json();
+  let reqBody;
+  try {
+    reqBody = await request.json();
+  } catch (e) {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { id } = reqBody;
+
+  if (!id) {
+    return NextResponse.json({ error: "id is required" }, { status: 400 });
+  }
 
   const { error } = await supabase.from("tasks").delete().eq("id", id);
   if (error) {
