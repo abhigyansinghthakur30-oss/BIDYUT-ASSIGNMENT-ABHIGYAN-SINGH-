@@ -1,0 +1,18 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/auth/logout/route": "/api/auth/logout",
+  "/api/auth/me/route": "/api/auth/me",
+  "/api/auth/login/route": "/api/auth/login",
+  "/api/messages/route": "/api/messages",
+  "/api/users/route": "/api/users",
+  "/api/auth/register/route": "/api/auth/register",
+  "/api/tasks/route": "/api/tasks",
+  "/dashboard/page": "/dashboard",
+  "/register/user/page": "/register/user",
+  "/login/page": "/login",
+  "/page": "/",
+  "/register/admin/page": "/register/admin",
+  "/login/admin/page": "/login/admin",
+  "/login/user/page": "/login/user",
+  "/register/page": "/register"
+}

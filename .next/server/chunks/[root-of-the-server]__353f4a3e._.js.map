@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 55, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Asus/Desktop/BIDYUT/BIDYUT-ASSIGNMENT-ABHIGYAN-SINGH-/src/app/api/auth/logout/route.js"],"sourcesContent":["import { NextResponse } from \"next/server\";\n\nexport async function POST() {\n  const response = NextResponse.json({ message: \"Logged out\" });\n  response.cookies.set(\"token\", \"\", {\n    httpOnly: true,\n    secure: process.env.NODE_ENV === \"production\",\n    sameSite: \"lax\",\n    maxAge: 0,\n    path: \"/\",\n  });\n  return response;\n}\n"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe;IACpB,MAAM,WAAW,gJAAY,CAAC,IAAI,CAAC;QAAE,SAAS;IAAa;IAC3D,SAAS,OAAO,CAAC,GAAG,CAAC,SAAS,IAAI;QAChC,UAAU;QACV,QAAQ,oDAAyB;QACjC,UAAU;QACV,QAAQ;QACR,MAAM;IACR;IACA,OAAO;AACT","debugId":null}}]
+}
